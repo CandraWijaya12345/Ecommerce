@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/SQLiteDatabase/ecommerce.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1911"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,13:mainorder_details"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="addresses" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="74"/><column index="2" value="52"/><column index="3" value="115"/><column index="4" value="122"/><column index="5" value="90"/><column index="6" value="138"/><column index="7" value="89"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="order_details" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="83"/><column index="2" value="104"/><column index="3" value="82"/><column index="4" value="165"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="orders" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="83"/><column index="2" value="74"/><column index="3" value="61"/><column index="4" value="61"/><column index="5" value="84"/><column index="6" value="72"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="products" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="104"/><column index="2" value="74"/><column index="3" value="168"/><column index="4" value="300"/><column index="5" value="61"/><column index="6" value="56"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="reviews" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="83"/><column index="2" value="52"/><column index="3" value="377"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="users" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="74"/><column index="2" value="103"/><column index="3" value="99"/><column index="4" value="209"/><column index="5" value="141"/><column index="6" value="52"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">INSERT INTO reviews (id_order, star, description) VALUES
+(201, 4, 'Pelayanan yang baik'),
+(202, 2, 'Kualitas produk kurang memuaskan'),
+(203, 5, 'Sangat puas dengan pembelian ini'),
+(204, 3, 'Agak kecewa dengan waktu pengiriman'),
+(205, 1, 'Produk rusak saat sampai'),
+(206, 5, 'Sangat merekomendasikan'),
+(207, 4, 'Harga yang sesuai dengan kualitas'),
+(208, 2, 'Produk tidak sesuai dengan deskripsi'),
+(209, 3, 'Pelayanan pelanggan yang perlu ditingkatkan'),
+(210, 5, 'Sangat profesional dalam penanganan pesanan'),
+(211, 1, 'Pengiriman terlambat'),
+(212, 4, 'Produk berkualitas tinggi'),
+(213, 3, 'Harga sedikit mahal untuk kualitasnya'),
+(214, 5, 'Tidak ada keluhan, semuanya sempurna'),
+(215, 2, 'Kemasan tidak rapi'),
+(216, 5, 'Layanan pengiriman yang cepat'),
+(217, 4, 'Rekomendasi untuk teman-teman'),
+(218, 3, 'Produk cukup bagus'),
+(219, 1, 'Pelayanan pelanggan yang buruk'),
+(220, 5, 'Terima kasih atas pelayanan yang baik');
+
+INSERT INTO order_details(id_order,id_product,quantity,price)
+VALUES (201,301,2,400000);
+
+delete from order_details
+delete from orders
+
+insert into orders (total) VALUES (
+
+UPDATE orders
+SET total = (
+    CASE
+        WHEN id_order = 201 THEN (SELECT price FROM products WHERE id_product = 301)
+        WHEN id_order = 202 THEN (SELECT price FROM products WHERE id_product = 302)
+        WHEN id_order = 203 THEN (SELECT price FROM products WHERE id_product = 303)
+        WHEN id_order = 204 THEN (SELECT price FROM products WHERE id_product = 304)
+        WHEN id_order = 205 THEN (SELECT price FROM products WHERE id_product = 305)
+        WHEN id_order = 206 THEN (SELECT price FROM products WHERE id_product = 306)
+        WHEN id_order = 207 THEN (SELECT price FROM products WHERE id_product = 307)
+        WHEN id_order = 208 THEN (SELECT price FROM products WHERE id_product = 308)
+        WHEN id_order = 209 THEN (SELECT price FROM products WHERE id_product = 309)
+        WHEN id_order = 210 THEN (SELECT price FROM products WHERE id_product = 310)
+        WHEN id_order = 211 THEN (SELECT price FROM products WHERE id_product = 301)
+        WHEN id_order = 212 THEN (SELECT price FROM products WHERE id_product = 302)
+        WHEN id_order = 213 THEN (SELECT price FROM products WHERE id_product = 303)
+        WHEN id_order = 214 THEN (SELECT price FROM products WHERE id_product = 304)
+        WHEN id_order = 215 THEN (SELECT price FROM products WHERE id_product = 305)
+        WHEN id_order = 216 THEN (SELECT price FROM products WHERE id_product = 306)
+        WHEN id_order = 217 THEN (SELECT price FROM products WHERE id_product = 307)
+        WHEN id_order = 218 THEN (SELECT price FROM products WHERE id_product = 308)
+        WHEN id_order = 219 THEN (SELECT price FROM products WHERE id_product = 309)
+        WHEN id_order = 220 THEN (SELECT price FROM products WHERE id_product = 310)
+        ELSE total
+    END
+);
+
+
+
+update orders set total = NULL;
+
+INSERT INTO order_details (id_order, id_product, quantity, price)
+VALUES
+    (201, (SELECT id_product FROM products WHERE id_order = 201), 2, (SELECT total FROM orders WHERE id_order = 201) * 2),
+    (202, (SELECT id_product FROM products WHERE id_order = 202), 3, (SELECT total FROM orders WHERE id_order = 202) * 3),
+    (203, (SELECT id_product FROM products WHERE id_order = 203), 1, (SELECT total FROM orders WHERE id_order = 203) * 1),
+    (204, (SELECT id_product FROM products WHERE id_order = 204), 2, (SELECT total FROM orders WHERE id_order = 204) * 2),
+    (205, (SELECT id_product FROM products WHERE id_order = 205), 1, (SELECT total FROM orders WHERE id_order = 205) * 1),
+    (206, (SELECT id_product FROM products WHERE id_order = 206), 3, (SELECT total FROM orders WHERE id_order = 206) * 3),
+    (207, (SELECT id_product FROM products WHERE id_order = 207), 2, (SELECT total FROM orders WHERE id_order = 207) * 2),
+    (208, (SELECT id_product FROM products WHERE id_order = 208), 1, (SELECT total FROM orders WHERE id_order = 208) * 1),
+    (209, (SELECT id_product FROM products WHERE id_order = 209), 3, (SELECT total FROM orders WHERE id_order = 209) * 3),
+    (210, (SELECT id_product FROM products WHERE id_order = 210), 1, (SELECT total FROM orders WHERE id_order = 210) * 1),
+    (211, (SELECT id_product FROM products WHERE id_order = 211), 2, (SELECT total FROM orders WHERE id_order = 211) * 2),
+    (212, (SELECT id_product FROM products WHERE id_order = 212), 3, (SELECT total FROM orders WHERE id_order = 212) * 3),
+    (213, (SELECT id_product FROM products WHERE id_order = 213), 1, (SELECT total FROM orders WHERE id_order = 213) * 1),
+    (214, (SELECT id_product FROM products WHERE id_order = 214), 2, (SELECT total FROM orders WHERE id_order = 214) * 2),
+    (215, (SELECT id_product FROM products WHERE id_order = 215), 1, (SELECT total FROM orders WHERE id_order = 215) * 1),
+    (216, (SELECT id_product FROM products WHERE id_order = 216), 3, (SELECT total FROM orders WHERE id_order = 216) * 3),
+    (217, (SELECT id_product FROM products WHERE id_order = 217), 2, (SELECT total FROM orders WHERE id_order = 217) * 2),
+    (218, (SELECT id_product FROM products WHERE id_order = 218), 1, (SELECT total FROM orders WHERE id_order = 218) * 1),
+    (219, (SELECT id_product FROM products WHERE id_order = 219), 3, (SELECT total FROM orders WHERE id_order = 219) * 3),
+    (220, (SELECT id_product FROM products WHERE id_order = 220), 1, (SELECT total FROM orders WHERE id_order = 220) * 1);
+
+	INSERT INTO order_details (id_order, id_product, quantity, price)
+SELECT
+    o.id_order,
+    p.id_product,
+    ROUND(o.total * (ABS(RANDOM()) % 3 + 1)),
+    ROUND(o.total * (ABS(RANDOM()) % 3 + 1) * (ABS(RANDOM()) % 2 + 1))
+FROM
+    orders o
+INNER JOIN
+    products p ON o.id_order = p.id_order
+WHERE
+    o.id_order BETWEEN 201 AND 220;
+	
+	INSERT INTO order_details (id_order, id_product, quantity, price)
+SELECT
+    o.id_order,
+    p.id_product,
+    ABS(RANDOM() % 3) + 1,
+    o.total * (ABS(RANDOM() % 3) + 1)
+FROM
+    orders o
+JOIN
+    products p ON o.id_order = p.id_order
+WHERE
+    o.id_order BETWEEN 201 AND 220;
+	
+INSERT INTO order_details(id_order,id_product,quantity,price)
+values (201,
+
+INSERT INTO order_details (id_order, id_product, quantity, price)
+VALUES 
+    (201, 301, 2, (SELECT total FROM orders WHERE id_order = 201) * 2),
+    (202, 302, 3, (SELECT total FROM orders WHERE id_order = 202) * 3),
+    (203, 303, 1, (SELECT total FROM orders WHERE id_order = 203) * 1),
+    (204, 304, 2, (SELECT total FROM orders WHERE id_order = 204) * 2),
+    (205, 305, 1, (SELECT total FROM orders WHERE id_order = 205) * 1),
+    (206, 306, 3, (SELECT total FROM orders WHERE id_order = 206) * 3),
+    (207, 307, 2, (SELECT total FROM orders WHERE id_order = 207) * 2),
+    (208, 308, 1, (SELECT total FROM orders WHERE id_order = 208) * 1),
+    (209, 309, 3, (SELECT total FROM orders WHERE id_order = 209) * 3),
+    (210, 310, 1, (SELECT total FROM orders WHERE id_order = 210) * 1),
+    (211, 301, 2, (SELECT total FROM orders WHERE id_order = 211) * 2),
+    (212, 302, 3, (SELECT total FROM orders WHERE id_order = 212) * 3),
+    (213, 303, 1, (SELECT total FROM orders WHERE id_order = 213) * 1),
+    (214, 304, 2, (SELECT total FROM orders WHERE id_order = 214) * 2),
+    (215, 305, 1, (SELECT total FROM orders WHERE id_order = 215) * 1),
+    (216, 306, 3, (SELECT total FROM orders WHERE id_order = 216) * 3),
+    (217, 307, 2, (SELECT total FROM orders WHERE id_order = 217) * 2),
+    (218, 308, 1, (SELECT total FROM orders WHERE id_order = 218) * 1),
+    (219, 309, 3, (SELECT total FROM orders WHERE id_order = 219) * 3),
+    (220, 310, 1, (SELECT total FROM orders WHERE id_order = 220) * 1);
+
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
