@@ -22,6 +22,11 @@ public  class Request {
             JSONObject jsonObject = new JSONObject();
             jsonObject = data.selectDatabase(path, query);
             response.getResponse(exchange, jsonObject.toString(), path, "PRODUCTS", 200);
+        }else if ("addresses".equals(path[1])) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject = data.selectDatabase(path, query);
+            response.getResponse(exchange, jsonObject.toString(), path, "ADDRESSES", 200);
+
         }else {
             response.sendResponse(exchange, "\n<h1><center>404</center></h1>\n<h3><center>Not Found!</center></h3>");
         }
