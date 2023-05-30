@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class Response {
-    public void getResponse(HttpExchange exchange,String jsonObject,String[] path, String tabel, int code) throws IOException{
+    public void getResponse(HttpExchange exchange,String jsonObject, int code) throws IOException{
         OutputStream outputstream = exchange.getResponseBody();
         exchange.getResponseHeaders().set("Content-Type","application/json");
         String response = jsonObject;

@@ -146,7 +146,7 @@ public class Data {
                         record.put("Discount", rs.getInt("discount"));
                         record.put("Total", rs.getInt("total"));
                         record.put("Note", rs.getInt("note"));
-                        record.put("Id", rs.getInt("id"));
+                        record.put("Id", rs.getInt("id_order"));
 
                         array.add(record);
                     }
@@ -154,19 +154,19 @@ public class Data {
                     return jsonObject;
                 }
                 if(path.length == 3){
-                    ResultSet rs = statement.executeQuery("select * from" + path[1] + "inner join users on products.id_user = users.id_user where users.id_users=" + path[2]);
+                    ResultSet rs = statement.executeQuery("SELECT DISTINCT a.id_order, c.id_product,b.id_user,b.first_name,a.note, c.quantity, c.price,d.star, d.description, e.title FROM orders AS a INNER JOIN users AS b ON a.id_user = b.id_user INNER JOIN order_details AS c ON a.id_order = c.id_order INNER JOIN reviews AS d ON a.id_order = d.id_order INNER JOIN products AS e ON c.id_product = e.id_product where a.id_order =" +  path[2]);
                     while(rs.next()) {
                         JSONObject record = new JSONObject();
-                        record.put("isPaid", rs.getInt("is_paid"));
-                        record.put("Discount", rs.getInt("discount"));
-                        record.put("Total", rs.getInt("total"));
+                        record.put("idOrder", rs.getInt("id_order"));
+                        record.put("idProduct", rs.getInt("id_product"));
+                        record.put("idUser", rs.getInt("id_user"));
+                        record.put("Name", rs.getString("first_name"));
                         record.put("Note", rs.getInt("note"));
-                        record.put("id_user", rs.getInt("id_user"));
-                        record.put("First_Name", rs.getString("first_name"));
-                        record.put("Last_Name", rs.getString("last_name"));
-                        record.put("Email", rs.getString("email"));
-                        record.put("Phone Number", rs.getString("phone_number"));
-                        record.put("Type", rs.getString("type"));
+                        record.put("Quantity", rs.getInt("quantity"));
+                        record.put("Price", rs.getString("price"));
+                        record.put("Star", rs.getInt("star"));
+                        record.put("Description", rs.getString("description"));
+                        record.put("Title", rs.getString("title"));
                         array.add(record);
                     }
                     jsonObject.put("Orders Information", array);
@@ -179,7 +179,172 @@ public class Data {
         }
         return null;
     }
-    // private JSONObject getData(JSONObject object, JSONArray array, ResultSet rs){
+    public String postData(JSONObject requestBodyJson, String[] path){
+        if(path[1].equals("users")){
+            String first_name = (String) requestBodyJson.get("first_name");
+            String last_name = (String) requestBodyJson.get("last_name");
+            String email = (String) requestBodyJson.get("email");
+            String phone_number = (String) requestBodyJson.get("phone_number");
+            String type = (String) requestBodyJson.get("type");
+            PreparedStatement statement = null;
+            int rowsAffected = 0;
+            String query = "INSERT INTO users(first_name, last_name, email, phone_number, type) VALUES(?,?,?,?,?)";
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:../../../../SQLiteDatabase/ecommerce.db");
+                statement = connection.prepareStatement(query);
+                statement.setString(1, first_name);
+                statement.setString(2, last_name);
+                statement.setString(3, email);
+                statement.setString(4, phone_number);
+                statement.setString(5, type);
+                rowsAffected = statement.executeUpdate();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            System.out.println(rowsAffected + " rows inserted!");
+            return rowsAffected + " rows inserted!";
+        }
+        else if(path[1].equals("orders")){
+            int id_buyer = Integer.parseInt(requestBodyJson.get("id_order").toString());
+            int id_user = Integer.parseInt(requestBodyJson.get("id_user").toString());
+            int note = Integer.parseInt(requestBodyJson.get("note").toString());
+            int total = Integer.parseInt(requestBodyJson.get("total").toString());
+            int discount = Integer.parseInt(requestBodyJson.get("discount").toString());
+            int isPaid = Integer.parseInt(requestBodyJson.get("is_paid").toString());
+            PreparedStatement statement = null;
+            int rowsAffected = 0;
+            String query = "INSERT INTO orders(id_order,id_user,note, total, discount, isPaid) VALUES(?,?,?,?,?,?)";
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:../../../../SQLiteDatabase/ecommerce.db");
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, id_buyer);
+                statement.setInt(2,id_user);
+                statement.setInt(3, note);
+                statement.setInt(4, total);
+                statement.setInt(5, discount);
+                statement.setInt(6, isPaid);
+                rowsAffected = statement.executeUpdate();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            System.out.println(rowsAffected + " rows inserted!");
+            return rowsAffected + " rows inserted!";
+        }
+        else if(path[1].equals("products")){
+            int idProduct = Integer.parseInt(requestBodyJson.get("id_product").toString());
+            int idUser = Integer.parseInt(requestBodyJson.get("id_user").toString());
+            String title = requestBodyJson.get("title").toString();
+            int description = Integer.parseInt(requestBodyJson.get("description").toString());
+            int price = Integer.parseInt(requestBodyJson.get("price").toString());
+            int stock = Integer.parseInt(requestBodyJson.get("stock").toString());
+            PreparedStatement statement = null;
+            int rowsAffected = 0;
+            String query = "INSERT INTO products(id_seller, title, description, price, stock) VALUES(?,?,?,?,?)";
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:../../../../SQLiteDatabase/ecommerce.db");
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, idProduct);
+                statement.setInt(2, idUser);
+                statement.setString(3, title);
+                statement.setInt(4, description);
+                statement.setInt(5, price);
+                statement.setInt(6, stock);
+                rowsAffected = statement.executeUpdate();
+            }catch (SQLException e){
+                e.printStackTrace();
+            }
+            System.out.println(rowsAffected + " rows inserted!");
+            return rowsAffected + " rows inserted!";
+        }
+        return null;
+    }
+    public String putData(JSONObject requestBodyJson, String[] path) {
+        if (path[1].equals("users")) {
+            String first_name = (String) requestBodyJson.get("first_name");
+            String last_name = (String) requestBodyJson.get("last_name");
+            String email = (String) requestBodyJson.get("email");
+            String phone_number = (String) requestBodyJson.get("phone_number");
+            String type = (String) requestBodyJson.get("type");
+            PreparedStatement statement = null;
+            int rowsAffected = 0;
+            String query = "INSERT INTO users(first_name, last_name, email, phone_number, type) VALUES(?,?,?,?,?)";
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:../../../../SQLiteDatabase/ecommerce.db");
+                statement = connection.prepareStatement(query);
+                statement.setString(1, first_name);
+                statement.setString(2, last_name);
+                statement.setString(3, email);
+                statement.setString(4, phone_number);
+                statement.setString(5, type);
+                rowsAffected = statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println(rowsAffected + " rows updated!");
+            return rowsAffected + " rows updated!";
+        } else if (path[1].equals("orders")) {
+            int id_buyer = Integer.parseInt(requestBodyJson.get("id_order").toString());
+            int id_user = Integer.parseInt(requestBodyJson.get("id_user").toString());
+            int note = Integer.parseInt(requestBodyJson.get("note").toString());
+            int total = Integer.parseInt(requestBodyJson.get("total").toString());
+            int discount = Integer.parseInt(requestBodyJson.get("discount").toString());
+            int isPaid = Integer.parseInt(requestBodyJson.get("is_paid").toString());
+            PreparedStatement statement = null;
+            int rowsAffected = 0;
+            String query = "INSERT INTO orders(id_order,id_user,note, total, discount, isPaid) VALUES(?,?,?,?,?,?)";
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:../../../../SQLiteDatabase/ecommerce.db");
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, id_buyer);
+                statement.setInt(2, id_user);
+                statement.setInt(3, note);
+                statement.setInt(4, total);
+                statement.setInt(5, discount);
+                statement.setInt(6, isPaid);
+                rowsAffected = statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println(rowsAffected + " rows inserted!");
+            return rowsAffected + " rows inserted!";
+        } else if (path[1].equals("products")) {
+            int id_seller = Integer.parseInt(requestBodyJson.get("Id_Seller").toString());
+            String title = requestBodyJson.get("Title").toString();
+            String description = requestBodyJson.get("Description").toString();
+            int price = Integer.parseInt(requestBodyJson.get("Price").toString());
+            int stock = Integer.parseInt(requestBodyJson.get("Stock").toString());
+            PreparedStatement statement = null;
+            int rowsAffected = 0;
+            String query = "INSERT INTO products(id_seller, title, description, price, stock) VALUES(?,?,?,?,?)";
+            try {
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:../../../../SQLiteDatabase/ecommerce.db");
+                statement = connection.prepareStatement(query);
+                statement.setInt(1, id_seller);
+                statement.setString(2, title);
+                statement.setString(3, description);
+                statement.setInt(4, price);
+                statement.setInt(5, stock);
+                rowsAffected = statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            System.out.println(rowsAffected + " rows inserted!");
+            return rowsAffected + " rows inserted!";
+        }return null;
+    }
+        public String deleteData(String[] path){
+            PreparedStatement statement = null;
+            int rowsAffected = 0;
+            try {
+                String query = "DELETE FROM " + path[1] + " WHERE id=" + path[2];
+                Connection connection = DriverManager.getConnection("jdbc:sqlite:../../../../SQLiteDatabase/ecommerce.db");
+                statement = connection.prepareStatement(query);
+                rowsAffected = statement.executeUpdate();
+            } catch (SQLException e) {
+                System.out.println(e);
+            }
+            return rowsAffected + " rows deleted!";
+        }
 
-    // }
 }
+
