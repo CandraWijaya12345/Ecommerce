@@ -336,7 +336,7 @@ public class Data {
             PreparedStatement statement = null;
             int rowsAffected = 0;
             try {
-                String query = "DELETE FROM " + path[1] + " WHERE id=" + path[2];
+                String query = "DELETE FROM " + path[1] + " WHERE id_user=" + path[2];
                 Connection connection = DriverManager.getConnection("jdbc:sqlite:../../../../SQLiteDatabase/ecommerce.db");
                 statement = connection.prepareStatement(query);
                 rowsAffected = statement.executeUpdate();
